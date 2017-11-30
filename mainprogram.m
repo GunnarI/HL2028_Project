@@ -49,25 +49,3 @@ Fs = 200;
 upsamplerate = 256;
 n = upsamplerate/Fs;
 
-% Use interpolation (FFT method) to upsample the signal from 200Hz to 256Hz
-ecg_S1B_Interp256 = interpft(ecg_S1B-mean(ecg_S1B),length(ecg_S1B)*n);
-%ecg_S1B_Interp256 = interpft(rm_baseline_poly(t_S1B,ecg_S1B,20),length(ecg_S1B)*n);
-
-t2 = 1/(n*Fs):1/(n*Fs):length(ecg_S1B_Interp256)/(Fs*n);
-
-% Least Sq. FIR LP & HP filters (cascaded): 70dB 0.05-40Hz 1dB ripple.
-ecg_S1B_256filtInterp  = filterECG256Hz(ecg_S1B_Interp256);
-
-figure
-plot(t_S1B,ecg_S1B, 'r')
-hold on
-plot(t2,ecg_S1B_Interp256, 'b')
-hold on
-plot(t2,ecg_S1B_256filtInterp,'g')
-figure
-% rrextract returns the time locations of the R waves (assigned to rrs256
-% here) and the RS amplitude (the difference R and S wave)
-[rrs256, RS] = rrextract(ecg_S1B_256filtInterp,Fs*n,0.2,1);
-
-figure
-plot(t2(rrs256(2:end)),movmean(diff(t2(rrs256)),20))

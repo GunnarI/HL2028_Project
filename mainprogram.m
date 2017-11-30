@@ -1,6 +1,3 @@
-
-testmode = 1;
-
 % Subject 1 BEFORE biofeedback session
 load S1Before;
 t_S1B = S1Before(length(S1Before)-60000+1:end,1)-S1Before(length(S1Before)-60000+1,1);
@@ -46,6 +43,3 @@ ecg_S4A = S4After(:,2);
 teb_S4A = S4After(:,3);
 
 Fs = 200;
-upsamplerate = 256;
-n = upsamplerate/Fs;
-

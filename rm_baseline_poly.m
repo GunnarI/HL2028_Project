@@ -13,5 +13,4 @@ function detrendedECG = rm_baseline_poly(t,ecg,opol)
 f_y = polyval(p,t,[],mu);
 
 detrendedECG = ecg - f_y;
-plot(detrendedECG);
 end

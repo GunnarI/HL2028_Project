@@ -45,14 +45,15 @@ teb_S4A = S4After(:,3);
 Fs = 200;
 
 % Detrend signal with polynomial fitting:
-ecg_S1B_detr = rm_baseline_poly(t_S1B,ecg_S1B,6);
-ecg_S1A_detr = rm_baseline_poly(t_S1A,ecg_S1A,6);
-ecg_S2B_detr = rm_baseline_poly(t_S2B,ecg_S2B,6);
-ecg_S2A_detr = rm_baseline_poly(t_S2A,ecg_S2A,6);
-ecg_S3B_detr = rm_baseline_poly(t_S3B,ecg_S3B,6);
-ecg_S3A_detr = rm_baseline_poly(t_S3A,ecg_S3A,6);
-ecg_S4B_detr = rm_baseline_poly(t_S4B,ecg_S4B,6);
-ecg_S4A_detr = rm_baseline_poly(t_S4A,ecg_S4A,6);
+fittingOrder = 3;
+ecg_S1B_detr = rm_baseline_poly(t_S1B,ecg_S1B,fittingOrder);
+ecg_S1A_detr = rm_baseline_poly(t_S1A,ecg_S1A,fittingOrder);
+ecg_S2B_detr = rm_baseline_poly(t_S2B,ecg_S2B,fittingOrder);
+ecg_S2A_detr = rm_baseline_poly(t_S2A,ecg_S2A,fittingOrder);
+ecg_S3B_detr = rm_baseline_poly(t_S3B,ecg_S3B,fittingOrder);
+ecg_S3A_detr = rm_baseline_poly(t_S3A,ecg_S3A,fittingOrder);
+ecg_S4B_detr = rm_baseline_poly(t_S4B,ecg_S4B,fittingOrder);
+ecg_S4A_detr = rm_baseline_poly(t_S4A,ecg_S4A,fittingOrder);
 
 %% Removal of baseline wander using forward-backward IIR filtering and 
 %   sampling rate alteration

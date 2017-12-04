@@ -85,56 +85,73 @@ ecg_S4A_forBack = filtfilt(...
 
 %% Sampling Rate Alteration
 
-% First decimation, then filtering, then interpolation
-% Decimation with FIR filter of order 10 (just random low order, see page 466)
-% by a factor of 2 (random factor, don't know the details yet)
-D = 2;
-firOrder = 100;
-ecg_S1B_100hz = decimate(ecg_S1B_detr,D,firOrder,'fir');
-ecg_S1A_100hz = decimate(ecg_S1A_detr,D,firOrder,'fir');
-ecg_S2B_100hz = decimate(ecg_S2B_detr,D,firOrder,'fir');
-ecg_S2A_100hz = decimate(ecg_S2A_detr,D,firOrder,'fir');
-ecg_S3B_100hz = decimate(ecg_S3B_detr,D,firOrder,'fir');
-ecg_S3A_100hz = decimate(ecg_S3A_detr,D,firOrder,'fir');
-ecg_S4B_100hz = decimate(ecg_S4B_detr,D,firOrder,'fir');
-ecg_S4A_100hz = decimate(ecg_S4A_detr,D,firOrder,'fir');
-
+D = 2;              % The order of downsampling
+firOrder = 100;     % The order of the filter used in downsampling
 % Create an instance of a 500 order Hamming Window Highpass filter using 
 % the function "baselineWanderHamm"
 wanderHamm = baselineWanderHamm;
 
-% Amply the Hamming window filter to the decimated/downsampled signal and
-% then upsample back to 200Hz
-ecg_S1B_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S1B_100hz);
-ecg_S1B_rateAlt = interp(ecg_S1B_rateAlt_100hz,D);
+% samplingRateAlt returns the signal after downsampling -> filtering ->
+% upsampling
+ecg_S1B_rateAlt = samplingRateAlt(ecg_S1B_detr, D, firOrder, wanderHamm);
+ecg_S1A_rateAlt = samplingRateAlt(ecg_S1A_detr, D, firOrder, wanderHamm);
+ecg_S2B_rateAlt = samplingRateAlt(ecg_S2B_detr, D, firOrder, wanderHamm);
+ecg_S2A_rateAlt = samplingRateAlt(ecg_S2A_detr, D, firOrder, wanderHamm);
+ecg_S3B_rateAlt = samplingRateAlt(ecg_S3B_detr, D, firOrder, wanderHamm);
+ecg_S3A_rateAlt = samplingRateAlt(ecg_S3A_detr, D, firOrder, wanderHamm);
+ecg_S4B_rateAlt = samplingRateAlt(ecg_S4B_detr, D, firOrder, wanderHamm);
+ecg_S4A_rateAlt = samplingRateAlt(ecg_S4A_detr, D, firOrder, wanderHamm);
 
-ecg_S1A_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S1A_100hz);
-ecg_S1A_rateAlt = interp(ecg_S1A_rateAlt_100hz,D);
-
-ecg_S2B_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S2B_100hz);
-ecg_S2B_rateAlt = interp(ecg_S2B_rateAlt_100hz,D);
-
-ecg_S2A_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S2A_100hz);
-ecg_S2A_rateAlt = interp(ecg_S2A_rateAlt_100hz,D);
-
-ecg_S3B_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S3B_100hz);
-ecg_S3B_rateAlt = interp(ecg_S3B_rateAlt_100hz,D);
-
-ecg_S3A_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S3A_100hz);
-ecg_S3A_rateAlt = interp(ecg_S3A_rateAlt_100hz,D);
-
-ecg_S4B_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S4B_100hz);
-ecg_S4B_rateAlt = interp(ecg_S4B_rateAlt_100hz,D);
-
-ecg_S4A_rateAlt_100hz = filter(...
-    dfilt.dffir(wanderHamm.Numerator), ecg_S4A_100hz);
-ecg_S4A_rateAlt = interp(ecg_S4A_rateAlt_100hz,D);
+% % First decimation, then filtering, then interpolation
+% % Decimation with FIR filter of order 10 (just random low order, see page 466)
+% % by a factor of 2 (random factor, don't know the details yet)
+% D = 2;
+% firOrder = 100;
+% ecg_S1B_100hz = decimate(ecg_S1B_detr,D,firOrder,'fir');
+% ecg_S1A_100hz = decimate(ecg_S1A_detr,D,firOrder,'fir');
+% ecg_S2B_100hz = decimate(ecg_S2B_detr,D,firOrder,'fir');
+% ecg_S2A_100hz = decimate(ecg_S2A_detr,D,firOrder,'fir');
+% ecg_S3B_100hz = decimate(ecg_S3B_detr,D,firOrder,'fir');
+% ecg_S3A_100hz = decimate(ecg_S3A_detr,D,firOrder,'fir');
+% ecg_S4B_100hz = decimate(ecg_S4B_detr,D,firOrder,'fir');
+% ecg_S4A_100hz = decimate(ecg_S4A_detr,D,firOrder,'fir');
+% 
+% % Create an instance of a 500 order Hamming Window Highpass filter using 
+% % the function "baselineWanderHamm"
+% wanderHamm = baselineWanderHamm;
+% 
+% % Amply the Hamming window filter to the decimated/downsampled signal and
+% % then upsample back to 200Hz
+% ecg_S1B_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S1B_100hz);
+% ecg_S1B_rateAlt = interp(ecg_S1B_rateAlt_100hz,D);
+% 
+% ecg_S1A_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S1A_100hz);
+% ecg_S1A_rateAlt = interp(ecg_S1A_rateAlt_100hz,D);
+% 
+% ecg_S2B_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S2B_100hz);
+% ecg_S2B_rateAlt = interp(ecg_S2B_rateAlt_100hz,D);
+% 
+% ecg_S2A_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S2A_100hz);
+% ecg_S2A_rateAlt = interp(ecg_S2A_rateAlt_100hz,D);
+% 
+% ecg_S3B_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S3B_100hz);
+% ecg_S3B_rateAlt = interp(ecg_S3B_rateAlt_100hz,D);
+% 
+% ecg_S3A_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S3A_100hz);
+% ecg_S3A_rateAlt = interp(ecg_S3A_rateAlt_100hz,D);
+% 
+% ecg_S4B_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S4B_100hz);
+% ecg_S4B_rateAlt = interp(ecg_S4B_rateAlt_100hz,D);
+% 
+% ecg_S4A_rateAlt_100hz = filter(...
+%     dfilt.dffir(wanderHamm.Numerator), ecg_S4A_100hz);
+% ecg_S4A_rateAlt = interp(ecg_S4A_rateAlt_100hz,D);
 
 plotBaselineWanderComparison;

@@ -1,5 +1,5 @@
 function detrendedECG = rm_baseline_poly(t,ecg,opol)
-%% rm_baseline_poly     Removes the trend baseline wander of an ECG signal
+% rm_baseline_poly     Removes the trend baseline wander of an ECG signal
 %   using polynomial fitting.
 %
 %   Use:    detrendedECG = rm_baseline_poly(t,ecg,opol)

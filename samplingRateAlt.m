@@ -15,7 +15,9 @@ function filteredData = ...
 %   After:  filteredData is a vector of length N containing the filtered 
 %           signal after upsampling again.
 
-s_dec = decimate(s, freqFactor, decFIROrder, 'fir');
+% By default, decimate uses a lowpass Chebyshev Type I IIR filter of order
+% 8 in the process of decimation.
+s_dec = decimate(s, freqFactor);
 
 s_dec_filt = filter(dfilt.dffir(FIRFilter.Numerator), s_dec);
 filteredData = interp(s_dec_filt, freqFactor);

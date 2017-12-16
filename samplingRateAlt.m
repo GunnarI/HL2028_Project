@@ -1,5 +1,5 @@
 function filteredData = ...
-    samplingRateAlt(s, freqFactor, decFIROrder, FIRFilter)
+    samplingRateAlt(s, freqFactor, FIRFilter)
 % samplingRateAlt   Filters signal using the Sampling Rate Alteration
 %   method together with a FIR filter
 %

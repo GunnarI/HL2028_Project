@@ -93,14 +93,14 @@ wanderHamm = baselineWanderHamm;
 
 % samplingRateAlt returns the signal after downsampling -> filtering ->
 % upsampling
-ecg_S1B_rateAlt = samplingRateAlt(ecg_S1B_detr, D, firOrder, wanderHamm);
-ecg_S1A_rateAlt = samplingRateAlt(ecg_S1A_detr, D, firOrder, wanderHamm);
-ecg_S2B_rateAlt = samplingRateAlt(ecg_S2B_detr, D, firOrder, wanderHamm);
-ecg_S2A_rateAlt = samplingRateAlt(ecg_S2A_detr, D, firOrder, wanderHamm);
-ecg_S3B_rateAlt = samplingRateAlt(ecg_S3B_detr, D, firOrder, wanderHamm);
-ecg_S3A_rateAlt = samplingRateAlt(ecg_S3A_detr, D, firOrder, wanderHamm);
-ecg_S4B_rateAlt = samplingRateAlt(ecg_S4B_detr, D, firOrder, wanderHamm);
-ecg_S4A_rateAlt = samplingRateAlt(ecg_S4A_detr, D, firOrder, wanderHamm);
+ecg_S1B_rateAlt = samplingRateAlt(ecg_S1B_detr, D, wanderHamm);
+ecg_S1A_rateAlt = samplingRateAlt(ecg_S1A_detr, D, wanderHamm);
+ecg_S2B_rateAlt = samplingRateAlt(ecg_S2B_detr, D, wanderHamm);
+ecg_S2A_rateAlt = samplingRateAlt(ecg_S2A_detr, D, wanderHamm);
+ecg_S3B_rateAlt = samplingRateAlt(ecg_S3B_detr, D, wanderHamm);
+ecg_S3A_rateAlt = samplingRateAlt(ecg_S3A_detr, D, wanderHamm);
+ecg_S4B_rateAlt = samplingRateAlt(ecg_S4B_detr, D, wanderHamm);
+ecg_S4A_rateAlt = samplingRateAlt(ecg_S4A_detr, D, wanderHamm);
 
 % % First decimation, then filtering, then interpolation
 % % Decimation with FIR filter of order 10 (just random low order, see page 466)

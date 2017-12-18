@@ -1,3 +1,4 @@
+%% Extract and save data and define variables
 % Subject 1 BEFORE biofeedback session
 load S1Before;
 t_S1B = S1Before(:,1);
@@ -44,7 +45,7 @@ teb_S4A = S4After(:,3);
 
 Fs = 200;
 
-% Detrend signal with polynomial fitting:
+%% Detrend signal with polynomial fitting:
 fittingOrder = 3;
 ecg_S1B_detr = rm_baseline_poly(t_S1B,ecg_S1B,fittingOrder);
 ecg_S1A_detr = rm_baseline_poly(t_S1A,ecg_S1A,fittingOrder);
@@ -104,13 +105,17 @@ ecg_S4A_rateAlt = samplingRateAlt(ecg_S4A_detr, D, wanderHamm);
 
 %plotBaselineWanderComparison;
 %% Powerline Interference
-ecg_S1B_prePro = removePowerline(ecg_S1B_rateAlt, Fs, 50, 2);
+ecg_S1B_prePro1 = removePowerline(ecg_S1B_rateAlt, Fs, 50, 2);
 ecg_S1B_prePro2 = removePowerline(ecg_S1B_rateAlt, Fs, 60, 2);
 
-plot(ecg_S1B_rateAlt)
-hold on
-plot(ecg_S1B_prePro)
-figure
-plot(ecg_S1B_rateAlt)
-hold on
-plot(ecg_S1B_prePro2)
+% plot(ecg_S1B_rateAlt)
+% hold on
+% plot(ecg_S1B_prePro)
+% figure
+% plot(ecg_S1B_rateAlt)
+% hold on
+% plot(ecg_S1B_prePro2)
+
+%% QRS Detection
+% pan_tompkins algorithm downloaded from: https://se.mathworks.com/matlabcentral/fileexchange/45840-complete-pan-tompkins-implementation-ecg-qrs-detector
+[qrs_amp_raw,qrs_i_raw,delay]=pan_tompkin(ecg_S1A,Fs);

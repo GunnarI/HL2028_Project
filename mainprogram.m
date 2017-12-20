@@ -105,8 +105,8 @@ ecg_S4A_rateAlt = samplingRateAlt(ecg_S4A_detr, D, wanderHamm);
 
 %plotBaselineWanderComparison;
 %% Powerline Interference
-ecg_S1B_prePro1 = removePowerline(ecg_S1B_rateAlt, Fs, 50, 2);
-ecg_S1B_prePro2 = removePowerline(ecg_S1B_rateAlt, Fs, 60, 2);
+%ecg_S1B_prePro1 = removePowerline(ecg_S1B_rateAlt, Fs, 50, 2);
+%ecg_S1B_prePro2 = removePowerline(ecg_S1B_rateAlt, Fs, 60, 2);
 
 % plot(ecg_S1B_rateAlt)
 % hold on
@@ -118,4 +118,13 @@ ecg_S1B_prePro2 = removePowerline(ecg_S1B_rateAlt, Fs, 60, 2);
 
 %% QRS Detection
 % pan_tompkins algorithm downloaded from: https://se.mathworks.com/matlabcentral/fileexchange/45840-complete-pan-tompkins-implementation-ecg-qrs-detector
-[qrs_amp_raw,qrs_i_raw,delay]=pan_tompkin(ecg_S1A,Fs);
+[qrs_amp_alt,qrs_i_alt,delay_alt]=pan_tompkin(ecg_S1A_rateAlt,Fs);
+[qrs_amp_raw,qrs_i_raw,delay_raw]=pan_tompkin(ecg_S1A,Fs);
+% ecg_S1B_PT = PTBandpass(ecg_S1B_detr, Fs);
+% ecg_S1A_PT = PTBandpass(ecg_S1A_detr, Fs);
+% ecg_S2B_PT = PTBandpass(ecg_S2B_detr, Fs);
+% ecg_S2A_PT = PTBandpass(ecg_S2A_detr, Fs);
+% ecg_S3B_PT = PTBandpass(ecg_S3B_detr, Fs);
+% ecg_S3A_PT = PTBandpass(ecg_S3A_detr, Fs);
+% ecg_S4B_PT = PTBandpass(ecg_S4B_detr, Fs);
+% ecg_S4A_PT = PTBandpass(ecg_S4A_detr, Fs);

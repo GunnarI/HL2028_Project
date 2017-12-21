@@ -14,6 +14,7 @@ N = 3;
 [a,b] = butter(N,Wn);   % a and b contains the coefficients for the 
                         % butterworth bandpass filter
 ecgFilt = filtfilt(a,b,ecg);
-filtSignal = ecgFilt/ max( abs(ecgFilt));
+filtSignal = ecgFilt;
+%filtSignal = ecgFilt/ max( abs(ecgFilt));
 
 end

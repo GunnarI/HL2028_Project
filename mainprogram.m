@@ -127,51 +127,13 @@ end
 % [qrs_amp_raw,qrs_i_raw,delay_raw]=pan_tompkin(ecg_S1A,Fs);
 
 %% Pan-Tompkins
-ecg_S1B_zeromean = ecg_S1B - mean(ecg_S1B);
-ecg_S1A_zeromean = ecg_S1A - mean(ecg_S1A);
-ecg_S2B_zeromean = ecg_S2B - mean(ecg_S2B);
-ecg_S2A_zeromean = ecg_S2A - mean(ecg_S2A);
-ecg_S3B_zeromean = ecg_S3B - mean(ecg_S3B);
-ecg_S3A_zeromean = ecg_S3A - mean(ecg_S3A);
-ecg_S4B_zeromean = ecg_S4B - mean(ecg_S4B);
-ecg_S4A_zeromean = ecg_S4A - mean(ecg_S4A);
 
-% Step 1: Apply bandpass filter to raw signal
-ecg_S1B_PT1 = PTBandpass(ecg_S1B_zeromean, Fs);
-ecg_S1A_PT1 = PTBandpass(ecg_S1A_zeromean, Fs);
-ecg_S2B_PT1 = PTBandpass(ecg_S2B_zeromean, Fs);
-ecg_S2A_PT1 = PTBandpass(ecg_S2A_zeromean, Fs);
-ecg_S3B_PT1 = PTBandpass(ecg_S3B_zeromean, Fs);
-ecg_S3A_PT1 = PTBandpass(ecg_S3A_zeromean, Fs);
-ecg_S4B_PT1 = PTBandpass(ecg_S4B_zeromean, Fs);
-ecg_S4A_PT1 = PTBandpass(ecg_S4A_zeromean, Fs);
-% ecg_S1B_PT1 = PTBandpass(ecg_S1B_rateAlt, Fs);
-% ecg_S1A_PT1 = PTBandpass(ecg_S1A_rateAlt, Fs);
-% ecg_S2B_PT1 = PTBandpass(ecg_S2B_rateAlt, Fs);
-% ecg_S2A_PT1 = PTBandpass(ecg_S2A_rateAlt, Fs);
-% ecg_S3B_PT1 = PTBandpass(ecg_S3B_rateAlt, Fs);
-% ecg_S3A_PT1 = PTBandpass(ecg_S3A_rateAlt, Fs);
-% ecg_S4B_PT1 = PTBandpass(ecg_S4B_rateAlt, Fs);
-% ecg_S4A_PT1 = PTBandpass(ecg_S4A_rateAlt, Fs);
+[peakAmps_S1B, peakLocs_S1B, delay_S1B] = PanTompkins(ecg_S1B_rateAlt, Fs);
+[peakAmps_S1A, peakLocs_S1A, delay_S1A] = PanTompkins(ecg_S1A_rateAlt, Fs);
+[peakAmps_S2B, peakLocs_S2B, delay_S2B] = PanTompkins(ecg_S2B_rateAlt, Fs);
+[peakAmps_S2A, peakLocs_S2A, delay_S2A] = PanTompkins(ecg_S2A_rateAlt, Fs);
+[peakAmps_S3B, peakLocs_S3B, delay_S3B] = PanTompkins(ecg_S3B_rateAlt, Fs);
+[peakAmps_S3A, peakLocs_S3A, delay_S3A] = PanTompkins(ecg_S3A_rateAlt, Fs);
+[peakAmps_S4B, peakLocs_S4B, delay_S4B] = PanTompkins(ecg_S4B_rateAlt, Fs);
+[peakAmps_S4A, peakLocs_S4A, delay_S4A] = PanTompkins(ecg_S4A_rateAlt, Fs);
 
-% Step 2: Derivative filter
-ecg_S1B_PT2 = PTDerivative(ecg_S1B_PT1, Fs);
-ecg_S1A_PT2 = PTDerivative(ecg_S1A_PT1, Fs);
-ecg_S2B_PT2 = PTDerivative(ecg_S2B_PT1, Fs);
-ecg_S2A_PT2 = PTDerivative(ecg_S2A_PT1, Fs);
-ecg_S3B_PT2 = PTDerivative(ecg_S3B_PT1, Fs);
-ecg_S3A_PT2 = PTDerivative(ecg_S3A_PT1, Fs);
-ecg_S4B_PT2 = PTDerivative(ecg_S4B_PT1, Fs);
-ecg_S4A_PT2 = PTDerivative(ecg_S4A_PT1, Fs);
-
-% Step 3: Squaring function
-ecg_S1B_PT3 = ecg_S1B_PT2.^2;
-ecg_S1A_PT3 = ecg_S1A_PT2.^2;
-ecg_S2B_PT3 = ecg_S2B_PT2.^2;
-ecg_S2A_PT3 = ecg_S2A_PT2.^2;
-ecg_S3B_PT3 = ecg_S3B_PT2.^2;
-ecg_S3A_PT3 = ecg_S3A_PT2.^2;
-ecg_S4B_PT3 = ecg_S4B_PT2.^2;
-ecg_S4A_PT3 = ecg_S4A_PT2.^2;
-
-% Step 4: Moving-Window Integration

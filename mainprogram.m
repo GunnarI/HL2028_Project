@@ -128,12 +128,14 @@ end
 
 %% Pan-Tompkins
 
-[peakAmps_S1B, peakLocs_S1B, delay_S1B] = PanTompkins(ecg_S1B_rateAlt, Fs);
-[peakAmps_S1A, peakLocs_S1A, delay_S1A] = PanTompkins(ecg_S1A_rateAlt, Fs);
-[peakAmps_S2B, peakLocs_S2B, delay_S2B] = PanTompkins(ecg_S2B_rateAlt, Fs);
-[peakAmps_S2A, peakLocs_S2A, delay_S2A] = PanTompkins(ecg_S2A_rateAlt, Fs);
-[peakAmps_S3B, peakLocs_S3B, delay_S3B] = PanTompkins(ecg_S3B_rateAlt, Fs);
-[peakAmps_S3A, peakLocs_S3A, delay_S3A] = PanTompkins(ecg_S3A_rateAlt, Fs);
-[peakAmps_S4B, peakLocs_S4B, delay_S4B] = PanTompkins(ecg_S4B_rateAlt, Fs);
-[peakAmps_S4A, peakLocs_S4A, delay_S4A] = PanTompkins(ecg_S4A_rateAlt, Fs);
+[peakAmps_S1B, peakLocs_S1B] = PanTompkins(ecg_S1B_rateAlt, Fs);
+[peakAmps_S1A, peakLocs_S1A] = PanTompkins(ecg_S1A_rateAlt, Fs);
+[peakAmps_S2B, peakLocs_S2B] = PanTompkins(ecg_S2B_rateAlt, Fs);
+[peakAmps_S2A, peakLocs_S2A] = PanTompkins(ecg_S2A_rateAlt, Fs);
+[peakAmps_S3B, peakLocs_S3B] = PanTompkins(ecg_S3B_rateAlt, Fs);
+[peakAmps_S3A, peakLocs_S3A] = PanTompkins(ecg_S3A_rateAlt, Fs);
+[peakAmps_S4B, peakLocs_S4B] = PanTompkins(ecg_S4B_rateAlt, Fs);
+[peakAmps_S4A, peakLocs_S4A] = PanTompkins(ecg_S4A_rateAlt, Fs);
 
+[ECG_Segments, Segments_Datapoints] = ...
+    SeperateECGSegments(ecg_S1B_rateAlt, peakLocs_S1B);

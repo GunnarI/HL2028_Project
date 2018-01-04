@@ -109,17 +109,16 @@ ecg_S4A_rateAlt = samplingRateAlt(ecg_S4A_detr, D, wanderHamm);
 if (baselineWanderPlots)
     plotBaselineWanderComparison;
 end
-%% Powerline Interference
-%ecg_S1B_prePro1 = removePowerline(ecg_S1B_rateAlt, Fs, 50, 2);
-%ecg_S1B_prePro2 = removePowerline(ecg_S1B_rateAlt, Fs, 60, 2);
-
-% plot(ecg_S1B_rateAlt)
-% hold on
-% plot(ecg_S1B_prePro)
-% figure
-% plot(ecg_S1B_rateAlt)
-% hold on
-% plot(ecg_S1B_prePro2)
+%% Finishing preprocessing using Gaussian filter and Lowpass filtering
+window = 7;
+ecg_S1B_PP = filter(lowpassFilter,gaussFilter(ecg_S1B_rateAlt,window));
+ecg_S1A_PP = filter(lowpassFilter,gaussFilter(ecg_S1A_rateAlt,window));
+ecg_S2B_PP = filter(lowpassFilter,gaussFilter(ecg_S2B_rateAlt,window));
+ecg_S2A_PP = filter(lowpassFilter,gaussFilter(ecg_S2A_rateAlt,window));
+ecg_S3B_PP = filter(lowpassFilter,gaussFilter(ecg_S3B_rateAlt,window));
+ecg_S3A_PP = filter(lowpassFilter,gaussFilter(ecg_S3A_rateAlt,window));
+ecg_S4B_PP = filter(lowpassFilter,gaussFilter(ecg_S4B_rateAlt,window));
+ecg_S4A_PP = filter(lowpassFilter,gaussFilter(ecg_S4A_rateAlt,window));
 
 %% QRS Detection
 % pan_tompkins algorithm downloaded from: https://se.mathworks.com/matlabcentral/fileexchange/45840-complete-pan-tompkins-implementation-ecg-qrs-detector
@@ -128,14 +127,26 @@ end
 
 %% Pan-Tompkins
 
-[peakAmps_S1B, peakLocs_S1B] = PanTompkins(ecg_S1B_rateAlt, Fs);
-[peakAmps_S1A, peakLocs_S1A] = PanTompkins(ecg_S1A_rateAlt, Fs);
-[peakAmps_S2B, peakLocs_S2B] = PanTompkins(ecg_S2B_rateAlt, Fs);
-[peakAmps_S2A, peakLocs_S2A] = PanTompkins(ecg_S2A_rateAlt, Fs);
-[peakAmps_S3B, peakLocs_S3B] = PanTompkins(ecg_S3B_rateAlt, Fs);
-[peakAmps_S3A, peakLocs_S3A] = PanTompkins(ecg_S3A_rateAlt, Fs);
-[peakAmps_S4B, peakLocs_S4B] = PanTompkins(ecg_S4B_rateAlt, Fs);
-[peakAmps_S4A, peakLocs_S4A] = PanTompkins(ecg_S4A_rateAlt, Fs);
+% [peakAmps_S1B, peakLocs_S1B] = PanTompkins(ecg_S1B_rateAlt, Fs);
+% [peakAmps_S1A, peakLocs_S1A] = PanTompkins(ecg_S1A_rateAlt, Fs);
+% [peakAmps_S2B, peakLocs_S2B] = PanTompkins(ecg_S2B_rateAlt, Fs);
+% [peakAmps_S2A, peakLocs_S2A] = PanTompkins(ecg_S2A_rateAlt, Fs);
+% [peakAmps_S3B, peakLocs_S3B] = PanTompkins(ecg_S3B_rateAlt, Fs);
+% [peakAmps_S3A, peakLocs_S3A] = PanTompkins(ecg_S3A_rateAlt, Fs);
+% [peakAmps_S4B, peakLocs_S4B] = PanTompkins(ecg_S4B_rateAlt, Fs);
+% [peakAmps_S4A, peakLocs_S4A] = PanTompkins(ecg_S4A_rateAlt, Fs);
+% 
+% [ECG_Segments, Segments_Datapoints] = ...
+%     SeperateECGSegments(ecg_S1B_rateAlt, peakLocs_S1B);
+
+[peakAmps_S1B, peakLocs_S1B] = PanTompkins(ecg_S1B_PP, Fs);
+[peakAmps_S1A, peakLocs_S1A] = PanTompkins(ecg_S1A_PP, Fs);
+[peakAmps_S2B, peakLocs_S2B] = PanTompkins(ecg_S2B_PP, Fs);
+[peakAmps_S2A, peakLocs_S2A] = PanTompkins(ecg_S2A_PP, Fs);
+[peakAmps_S3B, peakLocs_S3B] = PanTompkins(ecg_S3B_PP, Fs);
+[peakAmps_S3A, peakLocs_S3A] = PanTompkins(ecg_S3A_PP, Fs);
+[peakAmps_S4B, peakLocs_S4B] = PanTompkins(ecg_S4B_PP, Fs);
+[peakAmps_S4A, peakLocs_S4A] = PanTompkins(ecg_S4A_PP, Fs);
 
 [ECG_Segments, Segments_Datapoints] = ...
-    SeperateECGSegments(ecg_S1B_rateAlt, peakLocs_S1B);
+    SeperateECGSegments(ecg_S1B_PP, peakLocs_S1B);

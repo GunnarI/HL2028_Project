@@ -204,8 +204,14 @@ sgolayFiltered_S5A = savitzkyGolayFilter(ecg_S5A_rateAlt);
 [~, peakLocs_S5B] = PanTompkins(sgolayFiltered_S5B, Fs);
 [~, peakLocs_S5A] = PanTompkins(sgolayFiltered_S5A, Fs);
 
-% [ECG_Segments, Segments_Datapoints] = ...
-%     SeperateECGSegments(ecg_S1B_PP, peakLocs_S1B);
+[QLoc, SLoc, TLoc] = getQSTLocations(sgolayFiltered_S1B, peakLocs_S1B);
+
+TEndLoc = getTEnds(sgolayFiltered_S1B, TLoc, Fs);
+QStartLoc = getQStart(sgolayFiltered_S1B, QLoc, Fs);
+
+% plot(sgolayFiltered_S1B(1:5000));
+% hold on
+% plot(QStartLoc(10:20), sgolayFiltered_S1B(QStartLoc(10:20)), 'ro');
 
 %% Local maximum
 [r_peak_S1B, r_location_S1B] = findingRPeaks(sgolayFiltered_S1B);

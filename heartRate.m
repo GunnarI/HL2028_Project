@@ -1,4 +1,4 @@
-function [ heart_rate ] = heartRate( r_peaks_location )
+function [ hr_mean, hr_bps ] = heartRate( r_peaks_location )
 % HEART RATE = 60 / (RR interval in seconds).
 
 % creat a new vector for RR-peaks interval
@@ -10,12 +10,15 @@ for ii = 2:length(r_peaks_location)
     jj = jj + 1;
 end
 
+% HR beats per second for each RR interval
+hr_bps = 1./vector;
+
 % calculating the mean value for RR-interval without the first peak
 rr_meanValue = mean(vector(2:end));
 
 % heart rate
 hr = 60 / rr_meanValue; 
-heart_rate = round(hr);
+hr_mean = round(hr);
 
 
 end

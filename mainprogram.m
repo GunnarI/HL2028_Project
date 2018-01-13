@@ -134,7 +134,6 @@ end
 
 % Method one: Gaussian filter
 % Create a gaussian filter using the function "guassianFilter"
-gaussianFilteredICG_S1B = gaussianFilter(icg_S1B_rateAlt);
 gaussianFiltered_S1B = gaussianFilter(ecg_S1B_rateAlt);
 gaussianFiltered_S1A = gaussianFilter(ecg_S1A_rateAlt);
 gaussianFiltered_S2B = gaussianFilter(ecg_S2B_rateAlt);
@@ -147,7 +146,6 @@ gaussianFiltered_S5B = gaussianFilter(ecg_S5B_rateAlt);
 gaussianFiltered_S5A = gaussianFilter(ecg_S5A_rateAlt);
 
 % Method two: Lowpass filter
-lowpassFiltredICG_S1B = filter(lowpassFilter,icg_S1B_rateAlt);
 lowpassFiltred_S1B = filter(lowpassFilter,ecg_S1B_rateAlt);
 lowpassFiltred_S1A = filter(lowpassFilter,ecg_S1A_rateAlt);
 lowpassFiltred_S2B = filter(lowpassFilter,ecg_S2B_rateAlt);
@@ -160,7 +158,6 @@ lowpassFiltred_S5B = filter(lowpassFilter,ecg_S5B_rateAlt);
 lowpassFiltred_S5A = filter(lowpassFilter,ecg_S5A_rateAlt);
 
 % Method three: Savitzky-Golay filter 
-sgolayFilteredICG_S1B = savitzkyGolayFilter(icg_S1B_rateAlt);
 sgolayFiltered_S1B = savitzkyGolayFilter(ecg_S1B_rateAlt);
 sgolayFiltered_S1A = savitzkyGolayFilter(ecg_S1A_rateAlt);
 sgolayFiltered_S2B = savitzkyGolayFilter(ecg_S2B_rateAlt);
@@ -204,53 +201,38 @@ sgolayFiltered_S5A = savitzkyGolayFilter(ecg_S5A_rateAlt);
 [~, peakLocs_S5B] = PanTompkins(sgolayFiltered_S5B, Fs);
 [~, peakLocs_S5A] = PanTompkins(sgolayFiltered_S5A, Fs);
 
-[QLoc, SLoc, TLoc] = getQSTLocations(sgolayFiltered_S1B, peakLocs_S1B);
-
-TEndLoc = getTEnds(sgolayFiltered_S1B, TLoc, Fs);
-QStartLoc = getQStart(sgolayFiltered_S1B, QLoc, Fs);
-
-% plot(sgolayFiltered_S1B(1:5000));
-% hold on
-% plot(QStartLoc(10:20), sgolayFiltered_S1B(QStartLoc(10:20)), 'ro');
-
 %% Local maximum
-[r_peak_S1B, r_location_S1B] = findingRPeaks(sgolayFiltered_S1B);
-[r_peak_S1A, r_location_S1A] = findingRPeaks(sgolayFiltered_S1A);
-[r_peak_S2B, r_location_S2B] = findingRPeaks(sgolayFiltered_S2B);
-[r_peak_S2A, r_location_S2A] = findingRPeaks(sgolayFiltered_S2A);
-[r_peak_S3B, r_location_S3B] = findingRPeaks(sgolayFiltered_S3B);
-[r_peak_S3A, r_location_S3A] = findingRPeaks(sgolayFiltered_S3A);
-[r_peak_S4B, r_location_S4B] = findingRPeaks(sgolayFiltered_S4B);
-[r_peak_S4A, r_location_S4A] = findingRPeaks(sgolayFiltered_S4A);
-[r_peak_S5B, r_location_S5B] = findingRPeaks(sgolayFiltered_S5B);
-[r_peak_S5A, r_location_S5A] = findingRPeaks(sgolayFiltered_S5A);
+[r_peak_S1B, r_location_S1B] = findingRPeaks(sgolayFiltered_S1B, Fs);
+[r_peak_S1A, r_location_S1A] = findingRPeaks(sgolayFiltered_S1A, Fs);
+[r_peak_S2B, r_location_S2B] = findingRPeaks(sgolayFiltered_S2B, Fs);
+[r_peak_S2A, r_location_S2A] = findingRPeaks(sgolayFiltered_S2A, Fs);
+[r_peak_S3B, r_location_S3B] = findingRPeaks(sgolayFiltered_S3B, Fs);
+[r_peak_S3A, r_location_S3A] = findingRPeaks(sgolayFiltered_S3A, Fs);
+[r_peak_S4B, r_location_S4B] = findingRPeaks(sgolayFiltered_S4B, Fs);
+[r_peak_S4A, r_location_S4A] = findingRPeaks(sgolayFiltered_S4A, Fs);
+[r_peak_S5B, r_location_S5B] = findingRPeaks(sgolayFiltered_S5B, Fs);
+[r_peak_S5A, r_location_S5A] = findingRPeaks(sgolayFiltered_S5A, Fs);
 
 %% Heart rate
 % use function "hearRate" to find the heart rate
-heart_rate_S1B = heartRate(t_S1B(r_location_S1B));
-heart_rate_S1A = heartRate(t_S1A(r_location_S1A));
-heart_rate_S2B = heartRate(t_S2B(r_location_S2B));
-heart_rate_S2A = heartRate(t_S2A(r_location_S2A));
-heart_rate_S3B = heartRate(t_S3B(r_location_S3B));
-heart_rate_S3A = heartRate(t_S3A(r_location_S3A));
-heart_rate_S4B = heartRate(t_S4B(r_location_S4B));
-heart_rate_S4A = heartRate(t_S4A(r_location_S4A));
-heart_rate_S5B = heartRate(t_S5B(r_location_S5B));
-heart_rate_S5A = heartRate(t_S5A(r_location_S5A));
-
+[hr_mean_S1B, hr_S1B] = heartRate(t_S1B(r_location_S1B));
+[hr_mean_S1A, hr_S1A] = heartRate(t_S1A(r_location_S1A));
+[hr_mean_S2B, hr_S2B] = heartRate(t_S2B(r_location_S2B));
+[hr_mean_S2A, hr_S2A] = heartRate(t_S2A(r_location_S2A));
+[hr_mean_S3B, hr_S3B] = heartRate(t_S3B(r_location_S3B));
+[hr_mean_S3A, hr_S3A] = heartRate(t_S3A(r_location_S3A));
+[hr_mean_S4B, hr_S4B] = heartRate(t_S4B(r_location_S4B));
+[hr_mean_S4A, hr_S4A] = heartRate(t_S4A(r_location_S4A));
+[hr_mean_S5B, hr_S5B] = heartRate(t_S5B(r_location_S5B));
+[hr_mean_S5A, hr_S5A] = heartRate(t_S5A(r_location_S5A));
 
 %% Respiratory Rate
 
 %% Using ECG
-vS1B = respiratoryRate(r_location_S1B);
-vS1A = respiratoryRate(r_location_S1A);
-vS2B = respiratoryRate(r_location_S2B);
-vS2A = respiratoryRate(r_location_S2A);
-figure
-stairs(vS1B)
-title('Respiratory Rate')
-xlabel('Time [s]')
-ylabel('Amplitude [mV]')
+vS1B = respiratoryRate(t_S1B(r_location_S1B));
+vS1A = respiratoryRate(t_S1A(r_location_S1A));
+vS2B = respiratoryRate(t_S2B(r_location_S2B));
+vS2A = respiratoryRate(t_S2A(r_location_S2A));
 
 %% Using TEB
 
@@ -268,25 +250,160 @@ respRate_S5A = getAvgRespRate(teb_S5A, t_S5A, Fs);
 %% Print comparison table
 fprintf('\t\t\t\t\t\t\tSubject 1\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
-fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',heart_rate_S1B,heart_rate_S1A);
+fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S1B,hr_mean_S1A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S1B,respRate_S1A);
 
 fprintf('\t\t\t\t\t\t\tSubject 2\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
-fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',heart_rate_S2B,heart_rate_S2A);
+fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S2B,hr_mean_S2A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S2B,respRate_S2A);
 
 fprintf('\t\t\t\t\t\t\tSubject 3\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
-fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',heart_rate_S3B,heart_rate_S3A);
+fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S3B,hr_mean_S3A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S3B,respRate_S3A);
 
 fprintf('\t\t\t\t\t\t\tSubject 4\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
-fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',heart_rate_S4B,heart_rate_S4A);
+fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S4B,hr_mean_S4A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S4B,respRate_S4A);
 
 fprintf('\t\t\t\t\t\t\tSubject 5\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
-fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',heart_rate_S5B,heart_rate_S5A);
+fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S5B,hr_mean_S5A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S5B,respRate_S5A);
+
+%% RR/QT Analysis
+
+%% QT Intervals: Time domain
+
+QTInterval_S1B = getQTIntervals(...
+    sgolayFiltered_S1B, peakLocs_S1B, Fs);
+QTInterval_S1A = getQTIntervals(...
+    sgolayFiltered_S1A, peakLocs_S1A, Fs);
+QTInterval_S2B = getQTIntervals(...
+    sgolayFiltered_S2B, peakLocs_S2B, Fs);
+QTInterval_S2A = getQTIntervals(...
+    sgolayFiltered_S2A, peakLocs_S2A, Fs);
+QTInterval_S3B = getQTIntervals(...
+    sgolayFiltered_S3B, peakLocs_S3B, Fs);
+QTInterval_S3A = getQTIntervals(...
+    sgolayFiltered_S3A, peakLocs_S3A, Fs);
+QTInterval_S4B = getQTIntervals(...
+    sgolayFiltered_S4B, peakLocs_S4B, Fs);
+QTInterval_S4A = getQTIntervals(...
+    sgolayFiltered_S4A, peakLocs_S4A, Fs);
+QTInterval_S5B = getQTIntervals(...
+    sgolayFiltered_S5B, peakLocs_S5B, Fs);
+QTInterval_S5A = getQTIntervals(...
+    sgolayFiltered_S5A, peakLocs_S5A, Fs);
+
+% figure
+% plot(t_S1B(peakLocs_S1B),QTInterval_S1B)
+
+%% RR Intervals: Frequency Domain
+
+% Cubic Spline Interpolations:
+[t_HRspline_S1B, HRspline_S1B] = ...
+    cubicInterp(hr_S1B, t_S1B(r_location_S1B(2:end)));
+[t_HRspline_S1A, HRspline_S1A] = ...
+    cubicInterp(hr_S1A, t_S1A(r_location_S1A(2:end)));
+[t_HRspline_S2B, HRspline_S2B] = ...
+    cubicInterp(hr_S2B, t_S2B(r_location_S2B(2:end)));
+[t_HRspline_S2A, HRspline_S2A] = ...
+    cubicInterp(hr_S2A, t_S2A(r_location_S2A(2:end)));
+[t_HRspline_S3B, HRspline_S3B] = ...
+    cubicInterp(hr_S3B, t_S3B(r_location_S3B(2:end)));
+[t_HRspline_S3A, HRspline_S3A] = ...
+    cubicInterp(hr_S3A, t_S3A(r_location_S3A(2:end)));
+[t_HRspline_S4B, HRspline_S4B] = ...
+    cubicInterp(hr_S4B, t_S4B(r_location_S4B(2:end)));
+[t_HRspline_S4A, HRspline_S4A] = ...
+    cubicInterp(hr_S4A, t_S4A(r_location_S4A(2:end)));
+[t_HRspline_S5B, HRspline_S5B] = ...
+    cubicInterp(hr_S5B, t_S5B(r_location_S5B(2:end)));
+[t_HRspline_S5A, HRspline_S5A] = ...
+    cubicInterp(hr_S5A, t_S5A(r_location_S5A(2:end)));
+
+% FFT method
+[hr_FFT_f_S1B, hr_FFT_p_S1B] = hrFFT(HRspline_S1B, t_HRspline_S1B, Fs);
+[hr_FFT_f_S1A, hr_FFT_p_S1A] = hrFFT(HRspline_S1A, t_HRspline_S1A, Fs);
+[hr_FFT_f_S2B, hr_FFT_p_S2B] = hrFFT(HRspline_S2B, t_HRspline_S2B, Fs);
+[hr_FFT_f_S2A, hr_FFT_p_S2A] = hrFFT(HRspline_S2A, t_HRspline_S2A, Fs);
+[hr_FFT_f_S3B, hr_FFT_p_S3B] = hrFFT(HRspline_S3B, t_HRspline_S3B, Fs);
+[hr_FFT_f_S3A, hr_FFT_p_S3A] = hrFFT(HRspline_S3A, t_HRspline_S3A, Fs);
+[hr_FFT_f_S4B, hr_FFT_p_S4B] = hrFFT(HRspline_S4B, t_HRspline_S4B, Fs);
+[hr_FFT_f_S4A, hr_FFT_p_S4A] = hrFFT(HRspline_S4A, t_HRspline_S4A, Fs);
+[hr_FFT_f_S5B, hr_FFT_p_S5B] = hrFFT(HRspline_S5B, t_HRspline_S5B, Fs);
+[hr_FFT_f_S5A, hr_FFT_p_S5A] = hrFFT(HRspline_S5A, t_HRspline_S5A, Fs);
+
+% Welch method
+[hr_welch_p_S1B, hr_welch_f_S1B] = ...
+    pwelch(double(HRspline_S1B), 128, 64, 0:400);
+[hr_welch_p_S1A, hr_welch_f_S1A] = ...
+    pwelch(double(HRspline_S1A), 128, 64, 0:400);
+% figure
+% plot(hr_welch_f_S1B, hr_welch_p_S1B)
+
+[hr_welch_p_S2B, hr_welch_f_S2B] = ...
+    pwelch(double(HRspline_S2B), 128, 64, 0:400);
+[hr_welch_p_S2A, hr_welch_f_S2A] = ...
+    pwelch(double(HRspline_S2A), 128, 64, 0:400);
+
+[hr_welch_p_S3B, hr_welch_f_S3B] = ...
+    pwelch(double(HRspline_S3B), 128, 64, 0:400);
+[hr_welch_p_S3A, hr_welch_f_S3A] = ...
+    pwelch(double(HRspline_S3A), 128, 64, 0:400);
+
+% Lomb periodogram
+figure
+plomb(hr_S1B(2:end),t_S1B(r_location_S1B(3:end)),'Pd',[0.95, 0.5])
+
+%% QT Intervals: Frequency domain
+
+% Cubic Spline Interpolations:
+[t_QTspline_S1B, QTspline_S1B] = ...
+    cubicInterp(QTInterval_S1B, t_S1B(peakLocs_S1B));
+[t_QTspline_S1A, QTspline_S1A] = ...
+    cubicInterp(QTInterval_S1A, t_S1A(peakLocs_S1A));
+[t_QTspline_S2B, QTspline_S2B] = ...
+    cubicInterp(QTInterval_S2B, t_S2B(peakLocs_S2B));
+[t_QTspline_S2A, QTspline_S2A] = ...
+    cubicInterp(QTInterval_S2A, t_S2A(peakLocs_S2A));
+[t_QTspline_S3B, QTspline_S3B] = ...
+    cubicInterp(QTInterval_S3B, t_S3B(peakLocs_S3B));
+[t_QTspline_S3A, QTspline_S3A] = ...
+    cubicInterp(QTInterval_S3A, t_S3A(peakLocs_S3A));
+[t_QTspline_S4B, QTspline_S4B] = ...
+    cubicInterp(QTInterval_S4B, t_S4B(peakLocs_S4B));
+[t_QTspline_S4A, QTspline_S4A] = ...
+    cubicInterp(QTInterval_S4A, t_S4A(peakLocs_S4A));
+[t_QTspline_S5B, QTspline_S5B] = ...
+    cubicInterp(QTInterval_S5B, t_S5B(peakLocs_S5B));
+[t_QTspline_S5A, QTspline_S5A] = ...
+    cubicInterp(QTInterval_S5A, t_S5A(peakLocs_S5A));
+
+% FFT method
+[qt_FFT_f_S1B, qt_FFT_p_S1B] = hrFFT(QTspline_S1B, t_QTspline_S1B, Fs);
+[qt_FFT_f_S1A, qt_FFT_p_S1A] = hrFFT(QTspline_S1A, t_QTspline_S1A, Fs);
+[qt_FFT_f_S2B, qt_FFT_p_S2B] = hrFFT(QTspline_S2B, t_QTspline_S2B, Fs);
+[qt_FFT_f_S2A, qt_FFT_p_S2A] = hrFFT(QTspline_S2A, t_QTspline_S2A, Fs);
+[qt_FFT_f_S3B, qt_FFT_p_S3B] = hrFFT(QTspline_S3B, t_QTspline_S3B, Fs);
+[qt_FFT_f_S3A, qt_FFT_p_S3A] = hrFFT(QTspline_S3A, t_QTspline_S3A, Fs);
+[qt_FFT_f_S4B, qt_FFT_p_S4B] = hrFFT(QTspline_S4B, t_QTspline_S4B, Fs);
+[qt_FFT_f_S4A, qt_FFT_p_S4A] = hrFFT(QTspline_S4A, t_QTspline_S4A, Fs);
+[qt_FFT_f_S5B, qt_FFT_p_S5B] = hrFFT(QTspline_S5B, t_QTspline_S5B, Fs);
+[qt_FFT_f_S5A, qt_FFT_p_S5A] = hrFFT(QTspline_S5A, t_QTspline_S5A, Fs);
+
+figure
+plot(qt_FFT_f_S1B.*1000, qt_FFT_p_S1B)
+xlim([3.5 400])
+
+% Welch
+[qt_welch_p_S1B, qt_welch_f_S1B] = ...
+    pwelch(double(QTInterval_S1B), 128, 64, 0:400);
+% figure
+% plot(qt_welch_f_S1B, qt_welch_p_S1B)
+
+%% Plot Heart Rate Analysis
+plotHeartRateAnalysis;

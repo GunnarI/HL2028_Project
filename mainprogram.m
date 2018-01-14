@@ -215,16 +215,16 @@ sgolayFiltered_S5A = savitzkyGolayFilter(ecg_S5A_rateAlt);
 
 %% Heart rate
 % use function "hearRate" to find the heart rate
-[hr_mean_S1B, hr_S1B] = heartRate(t_S1B(r_location_S1B));
-[hr_mean_S1A, hr_S1A] = heartRate(t_S1A(r_location_S1A));
-[hr_mean_S2B, hr_S2B] = heartRate(t_S2B(r_location_S2B));
-[hr_mean_S2A, hr_S2A] = heartRate(t_S2A(r_location_S2A));
-[hr_mean_S3B, hr_S3B] = heartRate(t_S3B(r_location_S3B));
-[hr_mean_S3A, hr_S3A] = heartRate(t_S3A(r_location_S3A));
-[hr_mean_S4B, hr_S4B] = heartRate(t_S4B(r_location_S4B));
-[hr_mean_S4A, hr_S4A] = heartRate(t_S4A(r_location_S4A));
-[hr_mean_S5B, hr_S5B] = heartRate(t_S5B(r_location_S5B));
-[hr_mean_S5A, hr_S5A] = heartRate(t_S5A(r_location_S5A));
+[hr_mean_S1B, hr_S1B, hr_RMSSD_S1B] = heartRate(t_S1B(r_location_S1B));
+[hr_mean_S1A, hr_S1A, hr_RMSSD_S1A] = heartRate(t_S1A(r_location_S1A));
+[hr_mean_S2B, hr_S2B, hr_RMSSD_S2B] = heartRate(t_S2B(r_location_S2B));
+[hr_mean_S2A, hr_S2A, hr_RMSSD_S2A] = heartRate(t_S2A(r_location_S2A));
+[hr_mean_S3B, hr_S3B, hr_RMSSD_S3B] = heartRate(t_S3B(r_location_S3B));
+[hr_mean_S3A, hr_S3A, hr_RMSSD_S3A] = heartRate(t_S3A(r_location_S3A));
+[hr_mean_S4B, hr_S4B, hr_RMSSD_S4B] = heartRate(t_S4B(r_location_S4B));
+[hr_mean_S4A, hr_S4A, hr_RMSSD_S4A] = heartRate(t_S4A(r_location_S4A));
+[hr_mean_S5B, hr_S5B, hr_RMSSD_S5B] = heartRate(t_S5B(r_location_S5B));
+[hr_mean_S5A, hr_S5A, hr_RMSSD_S5A] = heartRate(t_S5A(r_location_S5A));
 
 %% Respiratory Rate
 
@@ -251,29 +251,36 @@ respRate_S5A = getAvgRespRate(teb_S5A, t_S5A, Fs);
 fprintf('\t\t\t\t\t\t\tSubject 1\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
 fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S1B,hr_mean_S1A);
+fprintf('\tHear rate var [rMSSD]:\t%d\t\t%d\n',hr_RMSSD_S1B,hr_RMSSD_S1A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S1B,respRate_S1A);
 
 fprintf('\t\t\t\t\t\t\tSubject 2\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
 fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S2B,hr_mean_S2A);
+fprintf('\tHear rate var [rMSSD]:\t%d\t\t%d\n',hr_RMSSD_S2B,hr_RMSSD_S2A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S2B,respRate_S2A);
 
 fprintf('\t\t\t\t\t\t\tSubject 3\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
 fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S3B,hr_mean_S3A);
+fprintf('\tHear rate var [rMSSD]:\t%d\t\t%d\n',hr_RMSSD_S3B,hr_RMSSD_S3A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S3B,respRate_S3A);
 
 fprintf('\t\t\t\t\t\t\tSubject 4\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
 fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S4B,hr_mean_S4A);
+fprintf('\tHear rate var [rMSSD]:\t%d\t\t%d\n',hr_RMSSD_S4B,hr_RMSSD_S4A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S4B,respRate_S4A);
 
 fprintf('\t\t\t\t\t\t\tSubject 5\n');
 fprintf('\t\t\t\t\t\tBefore\t After\n');
 fprintf('\t\tHear rate [bpm]:\t%d\t\t%d\n',hr_mean_S5B,hr_mean_S5A);
+fprintf('\tHear rate var [rMSSD]:\t%d\t\t%d\n',hr_RMSSD_S5B,hr_RMSSD_S5A);
 fprintf('Resp. rate [breath/min]:\t%d\t\t%d\n',respRate_S5B,respRate_S5A);
 
 %% RR/QT Analysis
+
+%% RR Intervals: Time domain
 
 %% QT Intervals: Time domain
 
@@ -342,13 +349,13 @@ QTInterval_S5A = getQTIntervals(...
     pwelch(double(HRspline_S1B), 128, 64, 0:400);
 [hr_welch_p_S1A, hr_welch_f_S1A] = ...
     pwelch(double(HRspline_S1A), 128, 64, 0:400);
-% figure
-% plot(hr_welch_f_S1B, hr_welch_p_S1B)
 
 [hr_welch_p_S2B, hr_welch_f_S2B] = ...
     pwelch(double(HRspline_S2B), 128, 64, 0:400);
 [hr_welch_p_S2A, hr_welch_f_S2A] = ...
     pwelch(double(HRspline_S2A), 128, 64, 0:400);
+figure
+plot(hr_welch_f_S2B, hr_welch_p_S2B)
 
 [hr_welch_p_S3B, hr_welch_f_S3B] = ...
     pwelch(double(HRspline_S3B), 128, 64, 0:400);
@@ -356,8 +363,16 @@ QTInterval_S5A = getQTIntervals(...
     pwelch(double(HRspline_S3A), 128, 64, 0:400);
 
 % Lomb periodogram
-figure
-plomb(hr_S1B(2:end),t_S1B(r_location_S1B(3:end)),'Pd',[0.95, 0.5])
+[hr_lomb_f_S1B, hr_lomb_p_S1B] = hrLomb(HRspline_S1B, t_HRspline_S1B);
+[hr_lomb_f_S1A, hr_lomb_p_S1A] = hrLomb(HRspline_S1A, t_HRspline_S1A);
+[hr_lomb_f_S2B, hr_lomb_p_S2B] = hrLomb(HRspline_S2B, t_HRspline_S2B);
+[hr_lomb_f_S2A, hr_lomb_p_S2A] = hrLomb(HRspline_S2A, t_HRspline_S2A);
+[hr_lomb_f_S3B, hr_lomb_p_S3B] = hrLomb(HRspline_S3B, t_HRspline_S3B);
+[hr_lomb_f_S3A, hr_lomb_p_S3A] = hrLomb(HRspline_S3A, t_HRspline_S3A);
+[hr_lomb_f_S4B, hr_lomb_p_S4B] = hrLomb(HRspline_S4B, t_HRspline_S4B);
+[hr_lomb_f_S4A, hr_lomb_p_S4A] = hrLomb(HRspline_S4A, t_HRspline_S4A);
+[hr_lomb_f_S5B, hr_lomb_p_S5B] = hrLomb(HRspline_S5B, t_HRspline_S5B);
+[hr_lomb_f_S5A, hr_lomb_p_S5A] = hrLomb(HRspline_S5A, t_HRspline_S5A);
 
 %% QT Intervals: Frequency domain
 
@@ -406,4 +421,5 @@ xlim([3.5 400])
 % plot(qt_welch_f_S1B, qt_welch_p_S1B)
 
 %% Plot Heart Rate Analysis
-plotHeartRateAnalysis;
+%plotHeartRateAnalysis;
+plotHeartRateAnalysis_frequencyDomain;
